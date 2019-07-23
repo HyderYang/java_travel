@@ -4,6 +4,7 @@
 
 ### JetBrains template
 .idea
+**.iml
 
 ### Windows template
 # Windows thumbnail cache files
