@@ -1,7 +1,6 @@
 package com.hyder.travel.util;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 
 import javax.sql.DataSource;
 import java.io.IOException;
