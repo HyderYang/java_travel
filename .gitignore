@@ -35,6 +35,7 @@ $RECYCLE.BIN/
 ### Java template
 # Compiled class file
 *.class
+MailUtils.java
 
 # Log file
 *.log
@@ -154,3 +155,4 @@ local.properties
 .scala_dependencies
 .worksheet
 
+/src/main/java/com/hyder/travel/util/MailUtils.java
