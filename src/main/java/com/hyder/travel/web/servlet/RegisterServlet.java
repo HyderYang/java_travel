@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
@@ -25,6 +26,23 @@ import java.util.Map;
 public class RegisterServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("application/json;charset=utf-8");
+
+		String check = req.getParameter("check");
+		HttpSession session = req.getSession();
+		String checkcodeServer = (String) session.getAttribute("CHECKCODE_SERVER");
+		session.removeAttribute("CHECKCODE_SERVER");
+
+		ResultInfo info = new ResultInfo();
+		ObjectMapper mapper = new ObjectMapper();
+		if (checkcodeServer == null || !checkcodeServer.equalsIgnoreCase(check)){
+			info.setFlag(false);
+			info.setErrorMsg("验证码错误");
+			String s = mapper.writeValueAsString(info);
+			resp.getWriter().write(s);
+			return;
+		}
+
 		Map<String, String[]> map = req.getParameterMap();
 
 		User user = new User();
@@ -37,16 +55,13 @@ public class RegisterServlet extends HttpServlet {
 		}
 
 		UserService service = new UserServiceImpl();
-		ResultInfo info = new ResultInfo();
 		if( service.register(user)){
 			info.setFlag(true);
 		} else {
 			info.setFlag(false);
 			info.setErrorMsg("注册失败");
 		}
-		ObjectMapper mapper = new ObjectMapper();
 		String s = mapper.writeValueAsString(info);
-		resp.setContentType("application/json;charset=utf-8");
 		resp.getWriter().write(s);
 	}
 
