@@ -4,6 +4,8 @@ import com.hyder.travel.dao.Impl.UserDaoImpl;
 import com.hyder.travel.dao.UserDao;
 import com.hyder.travel.domain.User;
 import com.hyder.travel.service.UserService;
+import com.hyder.travel.util.MailUtils;
+import com.hyder.travel.util.UuidUtil;
 
 /**
  * @author: 杨欢
@@ -19,8 +21,12 @@ public class UserServiceImpl implements UserService {
 		if (u != null) {
 			return false;
 		}
+		user.setCode(UuidUtil.getUuid());
+		user.setStatus("N");
 		userDao.save(user);
 
+		String content = "<a href='http://localhost:8989/activeUserServlet?code=" + user.getCode() +"'>点击激活</a>";
+		MailUtils.sendMail(user.getEmail(), content, "激活账号");
 		return true;
 	}
 }

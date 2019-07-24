@@ -31,7 +31,18 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void save(User user) {
-		String sql = "insert into tab_user(username, password, name, birthday, sex, telephone, email) " + "values(?, ?, ?, ?, ?, ?, ?)";
-		template.update(sql, user.getUsername(), user.getPassword(), user.getName(), user.getBirthday(), user.getSex(), user.getTelephone(), user.getEmail());
+		String sql = "insert into tab_user(username, password, name, birthday, sex, telephone, email, status, code) " + "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		template.update(
+				sql,
+				user.getUsername(),
+				user.getPassword(),
+				user.getName(),
+				user.getBirthday(),
+				user.getSex(),
+				user.getTelephone(),
+				user.getEmail(),
+				user.getStatus(),
+				user.getCode()
+		);
 	}
 }
