@@ -29,4 +29,15 @@ public class UserServiceImpl implements UserService {
 		MailUtils.sendMail(user.getEmail(), content, "激活账号");
 		return true;
 	}
+
+	@Override
+	public boolean active(String code) {
+		User user = userDao.findByCode(code);
+		if (user != null) {
+			userDao.updateStatus(user);
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
