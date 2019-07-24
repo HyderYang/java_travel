@@ -8,6 +8,7 @@ import com.hyder.travel.service.impl.UserServiceImpl;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @created: 2019-07-24 20:25
  * @description: 注册页面
  */
+@WebServlet("/registUserServlet")
 public class RegisterServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,14 +38,14 @@ public class RegisterServlet extends HttpServlet {
 
 		UserService service = new UserServiceImpl();
 		ResultInfo info = new ResultInfo();
-		if( service.register()){
+		if( service.register(user)){
 			info.setFlag(true);
 		} else {
 			info.setFlag(false);
 			info.setErrorMsg("注册失败");
 		}
 		ObjectMapper mapper = new ObjectMapper();
-		String s = mapper.writeValueAsString(mapper);
+		String s = mapper.writeValueAsString(info);
 		resp.setContentType("application/json;charset=utf-8");
 		resp.getWriter().write(s);
 	}
