@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
 
 		if (u != null && "Y".equals(u.getStatus())){
 			info.setFlag(true);
+			(req.getSession()).setAttribute("user", u);
 		}
 		resp.setContentType("application/json;charset=utf-8");
 		(new ObjectMapper()).writeValue(resp.getOutputStream(), info);
