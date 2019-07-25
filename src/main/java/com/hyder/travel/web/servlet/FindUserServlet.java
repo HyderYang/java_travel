@@ -1,5 +1,8 @@
 package com.hyder.travel.web.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hyder.travel.domain.ResultInfo;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +19,12 @@ import java.io.IOException;
 public class FindUserServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println(req.getSession().getAttribute("user"));
+		Object user = req.getSession().getAttribute("user");
+		resp.setContentType("application/json;charset=utf-8");
+		ResultInfo info = new ResultInfo();
+		info.setFlag(true);
+		info.setData(user);
+		(new ObjectMapper()).writeValue(resp.getOutputStream(), info);
 	}
 
 	@Override
