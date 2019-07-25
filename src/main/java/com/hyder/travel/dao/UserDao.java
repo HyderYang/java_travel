@@ -11,26 +11,33 @@ public interface UserDao {
 
 	/**
 	 * 根据用户名查询用户信息
-	 * @param username
+	 * @param username username
 	 * @return User
 	 */
-	public User findByUsername(String username);
+	User findByUsername(String username);
 
 	/**
 	 * 保存用户信息
 	 */
-	public void save(User user);
+	void save(User user);
 
 	/**
 	 * 查找激活Code
-	 * @param code
-	 * @return
+	 * @param code code
+	 * @return String
 	 */
-	public User findByCode(String code);
+	User findByCode(String code);
 
 	/**
 	 * 更新用户激活状态
-	 * @param user
+	 * @param user user
 	 */
-	public void updateStatus(User user);
+	void updateStatus(User user);
+
+	/**
+	 * 登录信息查找
+	 * @param user user
+	 * @return User
+	 */
+	User findByUsernameAndPassword(User user);
 }

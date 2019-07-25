@@ -11,4 +11,6 @@ public interface UserService {
 	public boolean register(User user);
 
 	public boolean active(String code);
+
+	public User login(User user);
 }
