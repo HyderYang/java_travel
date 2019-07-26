@@ -8,6 +8,7 @@ import com.hyder.travel.service.impl.RouteServiceImpl;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author: 杨欢
@@ -24,15 +25,19 @@ public class RouteServlet extends BaseServlet{
 	 * @param req
 	 * @param resp
 	 */
-	public void page(HttpServletRequest req, HttpServletResponse resp) {
+	public void page(HttpServletRequest req, HttpServletResponse resp) throws UnsupportedEncodingException {
 		String currentPageStr = req.getParameter("currentPage");
 		String pageSizeStr = req.getParameter("pageSize");
 		String cidStr = req.getParameter("cid");
 
+		String rname = req.getParameter("rname");
+		// 处理乱码问题
+		rname = new String(rname.getBytes("iso-8859-1"), "utf-8");
+
 		int cid = 0;
 		int currentPage = 0;
 		int pageSize = 0;
-		if (cidStr != null && cidStr.length() > 0){
+		if (cidStr != null && cidStr.length() > 0 && "null".equalsIgnoreCase(cidStr)){
 			cid = Integer.parseInt(cidStr);
 		}
 
@@ -48,7 +53,7 @@ public class RouteServlet extends BaseServlet{
 			pageSize = 5;
 		}
 
-		PageBean<Route> bean = service.pageQuery(cid, currentPage, pageSize);
+		PageBean<Route> bean = service.pageQuery(cid, currentPage, pageSize, rname);
 		this.writeValue(bean, resp);
 	}
 }
