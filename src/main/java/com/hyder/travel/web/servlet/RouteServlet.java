@@ -56,4 +56,15 @@ public class RouteServlet extends BaseServlet{
 		PageBean<Route> bean = service.pageQuery(cid, currentPage, pageSize, rname);
 		this.writeValue(bean, resp);
 	}
+
+	/**
+	 * 路线详情
+	 * @param req
+	 * @param resp
+	 */
+	public void detail(HttpServletRequest req, HttpServletResponse resp) {
+		String rid = req.getParameter("rid");
+		Route route = service.findOne(rid);
+		this.writeValue(route, resp);
+	}
 }
