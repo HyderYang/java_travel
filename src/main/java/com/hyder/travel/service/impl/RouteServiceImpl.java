@@ -6,6 +6,8 @@ import com.hyder.travel.domain.PageBean;
 import com.hyder.travel.domain.Route;
 import com.hyder.travel.service.RouteService;
 
+import java.util.List;
+
 /**
  * @author: 杨欢
  * @created: 2019-07-26 16:49
@@ -16,6 +18,19 @@ public class RouteServiceImpl implements RouteService {
 
 	@Override
 	public PageBean<Route> pageQuery(int cid, int currentPage, int pageSize) {
-		return null;
+		PageBean<Route> bean = new PageBean<Route>();
+		bean.setCurrentPage(currentPage);
+		bean.setPageSize(pageSize);
+
+		int totalCount = dao.findTotalCount(cid);
+		bean.setTotalCount(totalCount);
+
+		int start = (currentPage - 1) * pageSize;
+		List<Route> list = dao.findByPage(cid, start,pageSize);
+		bean.setList(list);
+
+		int countPage = totalCount % pageSize == 0 ? totalCount / pageSize : (totalCount / pageSize) + 1;
+		bean.setTotalPage(countPage);
+		return bean;
 	}
 }

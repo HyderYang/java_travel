@@ -24,7 +24,7 @@
 
         function load(cid ,currentPage){
             //发送ajax请求，请求route/pageQuery,传递cid
-            $.get("route/pageQuery",{cid:cid,currentPage:currentPage},function (pb) {
+            $.get("/route/page",{cid:cid,currentPage:currentPage},function (pb) {
                 //解析pagebean数据，展示到页面上
         
                 //1.分页工具条数据展示

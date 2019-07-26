@@ -1,5 +1,7 @@
 package com.hyder.travel.web.servlet;
 
+import com.hyder.travel.domain.PageBean;
+import com.hyder.travel.domain.Route;
 import com.hyder.travel.service.RouteService;
 import com.hyder.travel.service.impl.RouteServiceImpl;
 
@@ -45,5 +47,8 @@ public class RouteServlet extends BaseServlet{
 		} else {
 			pageSize = 5;
 		}
+
+		PageBean<Route> bean = service.pageQuery(cid, currentPage, pageSize);
+		this.writeValue(bean, resp);
 	}
 }
