@@ -29,8 +29,4 @@ public class CategoryServlet extends BaseServlet {
 		List<Category> categories = service.findAll();
 		super.writeValue(categories, resp);
 	}
-
-	public void foo(HttpServletRequest req, HttpServletResponse resp){
-
-	}
 }
