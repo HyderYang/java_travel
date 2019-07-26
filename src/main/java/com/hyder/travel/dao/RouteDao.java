@@ -21,4 +21,9 @@ public interface RouteDao {
 	 * 根据 分类id 当前页码 每页条数 查询当前页的数据集合
 	 */
 	List<Route> findByPage(int cid, int start, int pageSize, String rname);
+
+	/**
+	 * 查询线路详情
+	 */
+	Route findOne(int cid);
 }
