@@ -1,5 +1,8 @@
 package com.hyder.travel.web.servlet;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +20,7 @@ public class BaseServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String uri = req.getRequestURI();
-		System.out.println("url: " + uri);
-
 		String methodName = uri.substring(uri.lastIndexOf('/') + 1);
-		System.out.println("methodName: " + methodName);
-
 		try {
 			Method method = this.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
 			method.invoke(this, req, resp);
@@ -32,5 +31,24 @@ public class BaseServlet extends HttpServlet {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 直接将传入的对象序列化为JSON 并且写会客户端
+	 * @param obj
+	 */
+	public void writeValue(Object obj, HttpServletResponse resp){
+		ObjectMapper mapper = new ObjectMapper();
+		resp.setContentType("application/json;charset=utf-8");
+		try {
+			mapper.writeValue(resp.getOutputStream(), obj);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String writeValueAsString(Object obj, HttpServletResponse resp) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(obj);
 	}
 }
