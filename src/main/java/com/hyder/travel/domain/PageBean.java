@@ -7,13 +7,13 @@ import java.util.List;
  * @created: 2019-07-26 16:20
  * @description: 分类页面实体类
  */
-public class PageBean {
+public class PageBean<T> {
 	private int totalPage;
 	private int totalCount;
 	private int currentPage;
 	private int pageSize;
 
-	private List list;//每页显示的数据集合
+	private List<T> list;//每页显示的数据集合
 
 	public int getTotalPage() {
 		return totalPage;
@@ -47,11 +47,11 @@ public class PageBean {
 		this.pageSize = pageSize;
 	}
 
-	public List getList(){
+	public List<T> getList(){
 		return this.list;
 	}
 
-	public void setList(List list) {
+	public void setList(List<T> list) {
 		this.list = list;
 	}
 }
