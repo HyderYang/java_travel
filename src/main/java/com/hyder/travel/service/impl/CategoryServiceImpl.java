@@ -29,13 +29,11 @@ public class CategoryServiceImpl implements CategoryService {
 
 		if (set == null || set.size() == 0){
 			all = dao.findAll();
-			System.out.println("数据库查询");
 			for (int i = 0; i < all.size(); i++) {
 				jedis.zadd("category", all.get(i).getCid(), all.get(i).getCname());
 			}
 		} else {
 			all = new ArrayList<Category>();
-			System.out.println("redis查询");
 			for (Tuple tuple : set){
 				Category category = new Category();
 				category.setCname(tuple.getElement());

@@ -237,12 +237,12 @@
                 var astr ;
                 if(i >= 4){
                     astr = '<a title="" class="little_img" data-bigpic="'+route.routeImgList[i].bigPic+'" style="display:none;">\n' +
-                      '                        <img src="'+route.routeImgList[i].smallPic+'">\n' +
-                      '                    </a>';
+                      '  <img src="'+route.routeImgList[i].smallPic+'">\n' +
+                      '</a>';
                 }else{
                     astr = '<a title="" class="little_img" data-bigpic="'+route.routeImgList[i].bigPic+'">\n' +
-                      '                        <img src="'+route.routeImgList[i].smallPic+'">\n' +
-                      '                    </a>';
+                      '  <img src="'+route.routeImgList[i].smallPic+'">\n' +
+                      '</a>';
                 }
             
             
@@ -254,6 +254,26 @@
         
             //图片展示和切换代码调用
             goImg();
+        });
+    });
+
+
+    $(function () {
+        // 发送请求，判断用户是否收藏过该线路
+        var rid = getParameter("rid");
+        $.get("/route/isSubscriber",{rid:rid},function (flag) {
+            if(flag){
+                // 用户已经收藏过
+                //<a  class="btn already" disabled="disabled">
+                //设置收藏按钮的样式
+                $("#favorite").addClass("already");
+                $("#favorite").attr("disabled","disabled");
+            
+                //删除按钮的点击事件
+                $("#favorite").removeAttr("onclick");
+            }else{
+                // 用户没有收藏
+            }
         });
     });
 

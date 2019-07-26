@@ -2,8 +2,11 @@ package com.hyder.travel.web.servlet;
 
 import com.hyder.travel.domain.PageBean;
 import com.hyder.travel.domain.Route;
+import com.hyder.travel.domain.User;
 import com.hyder.travel.service.RouteService;
+import com.hyder.travel.service.SubscriberService;
 import com.hyder.travel.service.impl.RouteServiceImpl;
+import com.hyder.travel.service.impl.SubscriberServiceImpl;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +21,8 @@ import java.io.UnsupportedEncodingException;
 @WebServlet("/route/*")
 public class RouteServlet extends BaseServlet{
 
-	RouteService service = new RouteServiceImpl();
+	private RouteService service = new RouteServiceImpl();
+	private SubscriberService subscriber = new SubscriberServiceImpl();
 
 	/**
 	 * 分页查询
@@ -66,5 +70,27 @@ public class RouteServlet extends BaseServlet{
 		String rid = req.getParameter("rid");
 		Route route = service.findOne(rid);
 		this.writeValue(route, resp);
+	}
+
+	/**
+	 * 是否订阅
+	 * @param req
+	 * @param resp
+	 */
+	public void isSubscriber(HttpServletRequest req, HttpServletResponse resp){
+		String rid = req.getParameter("rid");
+
+		User user = (User) req.getSession().getAttribute("user");
+
+		int uid;
+		if (user == null){
+			uid = 0;
+		} else {
+			uid = user.getUid();
+		}
+
+		boolean flag = this.subscriber.isSubscriber(rid, uid);
+
+		this.writeValue(flag, resp);
 	}
 }
