@@ -6,6 +6,7 @@ import com.hyder.travel.domain.Category;
 import com.hyder.travel.service.CategoryService;
 import com.hyder.travel.util.JedisUtil;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> findAll() {
 		Jedis jedis = JedisUtil.getJedis();
-		Set<String> set = jedis.zrange("category", 0, -1);
+//		Set<String> set = jedis.zrange("category", 0, -1);
+		Set<Tuple> set = jedis.zrangeWithScores("category", 0, -1);
 		List<Category> all = null;
 
 		if (set == null || set.size() == 0){
@@ -34,9 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
 		} else {
 			all = new ArrayList<Category>();
 			System.out.println("redis查询");
-			for (String name : set){
+			for (Tuple tuple : set){
 				Category category = new Category();
-				category.setCname(name);
+				category.setCname(tuple.getElement());
+				category.setCid((int)tuple.getScore());
 				all.add(category);
 			}
 		}
